@@ -20,6 +20,8 @@ Usage example:
 create or alter procedure bronze.load_bronze as 
 begin
 Declare @batch_start_time DATETIME, @batch_end_time DATETIME;
+GO
+
 begin try
 set @batch_start_time = getdate();
 print '=============================';
@@ -32,6 +34,7 @@ print '-----------------------------';
 
 print '>> Truncating Table: bronze.crm_cust_info';
 truncate table bronze.crm_cust_info;
+GO
 
 print '>> Inserting data into Table: bronze.crm_cust_info';
 BULK INSERT bronze.crm_cust_info
@@ -42,8 +45,11 @@ with(
 	ROWTERMINATOR = '\n',
 	TABLOCK
 );
+GO
+	
 print '>> Truncating Table: bronze.crm_sales_details';
 truncate table bronze.crm_sales_details;
+GO
 
 BULK INSERT bronze.crm_sales_details
 from 'C:\Users\venka\Downloads\sql-data-warehouse-project\sql-data-warehouse-project\datasets\source_crm\sales_details.csv'
@@ -53,9 +59,11 @@ with(
 	ROWTERMINATOR = '\n',
 	TABLOCK
 );
+GO
 
 print '>> Truncating Table: bronze.crm_prd_info';
 truncate table bronze.crm_prd_info;
+GO
 
 BULK INSERT bronze.crm_prd_info
 from 'C:\Users\venka\Downloads\sql-data-warehouse-project\sql-data-warehouse-project\datasets\source_crm\prd_info.csv'
@@ -65,9 +73,12 @@ with(
 	ROWTERMINATOR = '\n',
 	TABLOCK
 );
+GO
 
 print '>> Truncating Table: bronze.crm_prd_info';
 truncate table bronze.crm_prd_info;
+GO
+	
 BULK INSERT bronze.crm_prd_info
 from 'C:\Users\venka\Downloads\sql-data-warehouse-project\sql-data-warehouse-project\datasets\source_crm\prd_info.csv'
 with(
@@ -76,11 +87,14 @@ with(
 	ROWTERMINATOR = '\n',
 	TABLOCK
 );
+GO
 
 print '----------------------------------';
 print 'Loading ERP Tables';
 print '----------------------------------';
 truncate table bronze.erp_cust_az12;
+GO
+	
 BULK INSERT bronze.erp_cust_az12
 from 'C:\Users\venka\Downloads\sql-data-warehouse-project\sql-data-warehouse-project\datasets\source_erp\CUST_AZ12.csv'
 with(
@@ -91,6 +105,8 @@ with(
 );
 
 truncate table bronze.erp_loc_a101;
+GO 
+	
 BULK INSERT bronze.erp_loc_a101
 from 'C:\Users\venka\Downloads\sql-data-warehouse-project\sql-data-warehouse-project\datasets\source_erp\LOC_A101.csv'
 with(
@@ -99,8 +115,11 @@ with(
 	ROWTERMINATOR = '\n',
 	TABLOCK
 );
+GO
 
 truncate table bronze.erp_px_cat_g1v2;
+GO
+	
 BULK INSERT bronze.erp_px_cat_g1v2
 from 'C:\Users\venka\Downloads\sql-data-warehouse-project\sql-data-warehouse-project\datasets\source_erp\PX_CAT_G1V2.csv'
 with(
@@ -109,8 +128,14 @@ with(
 	ROWTERMINATOR = '\n',
 	TABLOCK
 );
+GO
+	
 set @batch_end_time = getdate();
+GO
+	
 print 'Total load Duration: '+ cast(datediff(second, @batch_start_time, @batch_end_time) as NVARCHAR) + 'seconds';
+GO
+	
 print 'successfully insertion completed'
 end try
 begin catch
