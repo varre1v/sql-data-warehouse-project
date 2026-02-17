@@ -31,7 +31,7 @@ GO
 create table bronze.crm_sales_details(
   sls_ord_num NVARCHAR(50),
   sls_prd_key NVARCHAR(50),
-  sls_cisut_id INT,
+  sls_cust_id INT,
   sls_order_dt INT,
   sls_ship_dt INT,
   sls_due_dt INT,
